@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&display=swap');
+$primary-color: white;
+$primary-font-color:#050828;
+$navbar-height:70px;
+$footer-height:300px;
+$app-color-0: rgb(38, 38, 127);
+$app-color-1: rgb(34, 86, 34);
+$app-color-2: rgb(100, 69, 74);
+$app-color-3: rgb(68, 52, 22);
+$search-color: hsl(73, 17%, 43%);
+$contact-title-bg:#ebebeb;
+$contact-color:#aca3a3;
+
+@mixin flexCenter($direction:column){
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: $direction;
+}
+
+@mixin customContainer($percentage: 80%, $marginY: 20px){
+    width: $percentage;
+    margin: $marginY auto;
+}

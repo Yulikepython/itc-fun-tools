@@ -1,0 +1,127 @@
+@use "./variables" as *;
+//ある一定の幅でmedia query
+$blogcloud-main-color:#050828;
+$blog-form-height:280px;
+@keyframes blink {50% { color: transparent }}
+
+.blogcloud-container{
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    align-items: center;
+    padding:20px;
+    width:100%;
+    .blogcloud-form-container{
+        width:40%;
+        max-width:600px;
+        min-height:$blog-form-height;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        form{
+            min-height:$blog-form-height;
+            padding:20px 0;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        input{
+            border:none;
+            border-bottom:1px solid $blogcloud-main-color;
+            width:90%;
+            margin:auto;
+            max-width:500px;
+        }
+        button{
+            color:$blogcloud-main-color;
+            padding:7px 12px;
+            border-radius:100vh;
+            border:1px solid $blogcloud-main-color;
+            border-bottom: 5px solid $blogcloud-main-color;
+            background-color: #f4f4f4;
+           
+        }
+
+        button:hover {
+            margin-top: 3px;
+            border-bottom: 2px solid $blogcloud-main-color;
+        }
+
+        button:focus{
+            background-color: #bdbaba;
+        }
+
+    }
+    #blogShowCase{
+        width:60%;
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items:center;
+        margin-top:30px;
+        #showPng{
+            width:100%;
+            img{
+                width:100%;
+            }
+        }
+        #imageURL{
+            width:100%;
+            text-align:center;
+            margin:10px auto;
+            a{
+                
+            }
+        }
+        #showWords{
+            display:none;
+            margin-top:20px;
+            width:100%;
+            padding:20px;
+            box-shadow: $blogcloud-main-color 0px 0px 0px 3px;
+            h3{
+                text-align:center;
+                text-decoration: underline;
+            }
+            .wordsList{
+                text-align:center;
+                .wordsList-row{
+                    border-bottom:1px solid #948f8f;
+                    padding-bottom:5px;
+                    width:250px;
+                    margin:auto;
+                    display:flex;
+                    justify-content: center;
+                    align-items: center;
+                    div{
+                        width:50%;
+                    }
+                    .word-title{
+                        text-align:right;
+                    }
+                    .word-numbers{
+                        text-align:left;
+                        padding-left:10px;
+                    }
+                }
+            }
+        }
+        .blink{
+            animation: 1.5s blink infinite;
+        }
+    }
+    @media screen and (max-width:800px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .blogcloud-form-container{
+            width:90%;
+            margin-bottom:20px;
+        }
+        #blogShowCase{
+            width:90%;
+            min-height:0;
+        }
+    }
+
+}
+

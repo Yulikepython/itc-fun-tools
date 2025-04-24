@@ -1,0 +1,19 @@
+@use "./variables" as *;
+
+.privacypolicy-container{
+    width:90%;
+    max-width:1000px;
+    margin:30px auto;
+    color:$primary-font-color;
+   h2{
+    text-decoration: underline;
+
+   } 
+   section{
+       display:block;
+       margin:15px auto;
+       .header{
+           font-weight:700;
+       }
+   }
+}

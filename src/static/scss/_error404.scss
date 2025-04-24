@@ -1,0 +1,29 @@
+@use "./variables" as *;
+
+.error404-container{
+    position:absolute;
+    @include flexCenter;
+    height:calc(100vh - $footer-height);
+    inset:0;
+    text-align: center;
+    padding:0 20px;
+    .error404-main-title{
+        font-size:5rem;
+        font-weight:900;
+        color:$primary-font-color;
+    }
+    .error404-message{
+        font-size:1.2rem;
+        margin:10px 0;
+        color:$primary-font-color;
+        font-weight:500;
+    }
+    .error404-link{
+        font-size:1rem;
+    }
+    @media screen and (max-width:400px) {
+        .error404-message{
+            margin:20px 0;
+        }
+    }
+}

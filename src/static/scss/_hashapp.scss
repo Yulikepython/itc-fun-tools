@@ -1,0 +1,74 @@
+@use "./variables" as *;
+@use "./randomstringgenerator" as *;
+
+$hashapp-main-color:#050828;
+$hashapp-form-height:360px;
+@keyframes blink {50% { color: transparent }}
+.top-hashapp-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    form{
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height:$hashapp-form-height;
+        width:90%;
+        max-width:450px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        margin-top:20px;
+        padding:0 15px;
+        h1{
+            margin:20px auto 30px auto;
+            text-align:center;
+            font-size:24px;
+        }
+        input{
+            width:100%;
+            margin:auto;
+        }
+        button{
+            color:$hashapp-main-color;
+            padding:5px 12px;
+            border-radius:100vh;
+            border:1px solid $random-main-color;
+            border-bottom: 5px solid $random-main-color;
+            background-color: #f4f4f4;
+        }
+
+        button:hover {
+            margin-top: 3px;
+            border-bottom: 2px solid $random-main-color;
+        }
+
+        button:focus{
+            background-color: #bdbaba;
+        }
+        .error-text{
+            font-size:12px;
+            margin-bottom:5px;
+            *{
+                margin:0;
+            }
+        }
+    }
+    #hashedResult{
+        margin:30px auto;
+        
+        div{
+            margin:10px 0;
+        }
+        @media screen and (max-width:600px) {
+            font-size:12px;
+        }
+        @media screen and (max-width:450px) {
+            font-size:10px;
+        }
+    }
+    .blink{
+        margin-top:20px;
+        animation: 1.5s blink infinite;
+    }
+}

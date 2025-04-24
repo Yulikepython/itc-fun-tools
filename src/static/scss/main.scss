@@ -1,0 +1,34 @@
+// 最初に変数とユーティリティを読み込む
+@use "./variables" as *;
+
+// 変数に依存するファイルをその後に読み込む
+@use "./config" as *;
+
+// その他のコンポーネントスタイル
+@use "./search" as *;
+@use "./header" as *;
+@use "./breadcrumbs" as *;
+@use "./privacypolicy" as *;
+@use "./landingPage" as *;
+@use "./yearConverterStyles" as *;
+@use "./heicStyles" as *;
+@use "./picSizeChangerStyles" as *;
+@use "./blogCloud" as *;
+@use "./qr" as *;
+@use "./twitterTrends" as *;
+@use "./randomstringgenerator" as *;
+@use "./favicon" as *;
+@use "./wordcounter" as *;
+@use "./hashapp" as *;
+@use "./barFlyer" as *;
+@use "./privacyPolicyMaker" as *;
+@use "./pomodoro" as *;
+@use "./contact" as *;
+@use "./footer" as *;
+@use "./error404" as *;
+
+// Bootstrapをインポート（@useディレクティブを使用）
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+// Bootstrap IconsはURLインポート
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css");

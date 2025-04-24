@@ -1,0 +1,13 @@
+@use "./variables" as *;
+
+$sum-height:calc($footer-height + $navbar-height);
+
+*, *::after, *::before {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family: 'Noto Serif JP', serif;
+}
+main{
+    min-height:calc(100vh - $sum-height);
+}

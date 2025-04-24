@@ -1,0 +1,92 @@
+@use "./variables" as *;
+
+.contact-container{
+    letter-spacing: 0.7px;
+    @include customContainer($percentage:90%, $marginY:30px);
+    box-shadow: 10px 5px 10px 0 rgba(0, 0, 0, 0.4);
+    max-width:500px;
+    border:2px solid rgb(218, 225, 224);
+    .contact-title{
+        background:$contact-title-bg;
+        height:120px;
+        display:flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding:0 20px;
+        h3{
+            margin:5px;
+            padding:0;
+        }
+        p{
+            margin:5px;
+            padding:0;
+        }
+    }
+    .contact-form{
+        width:100%;
+        padding:20px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        div{
+            @include customContainer($percentage:90%,$marginY:10px);
+        }
+        label{
+            font-weight:700;
+            margin:5px 0;
+        }
+        .input-container{
+            input{
+                width:100%;
+                height:50px;
+                border:1px solid $contact-color;
+                border-radius:5px;
+                padding:10px 20px;
+                &:focus{
+                    
+                }
+            }
+        }
+        select{
+            height:50px;
+            color:gray;
+            border:1px solid $contact-color;
+            border-radius:5px;
+            background-color: white;
+            padding-left:16px;
+            width:100%;
+            &:focus{
+                color:black;
+            }
+        }
+        textarea{
+            width:100%;
+            border:1px solid $contact-color;
+            border-radius:5px;
+            &:focus{
+                border:#f4f4f4 1px solid;
+            }
+        }
+        .btn-div{
+            text-align: center;
+            button{
+                border:1px solid white;
+                background-color: rgb(179, 179, 179);
+                padding:15px 20px;
+                color: white;
+                font-weight:700;
+                border-radius:5px;
+                &:hover {
+                    cursor:pointer;
+                    background:rgb(179, 179, 179, 0.8);
+                }
+            }
+        }
+    }
+    .error-div{
+        div{
+            margin:5px 0;
+        }
+    }
+}

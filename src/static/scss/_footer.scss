@@ -1,0 +1,46 @@
+@use "./variables" as *;
+
+footer{
+    position:relative;
+    bottom:0;
+    width:100%;
+    height:$footer-height;
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    background: $primary-font-color;
+    color:$primary-color;
+    .footer-title{
+        width:100%;
+        text-align:center;
+        img{
+            width:100px;
+        }
+    }
+    .link-sec{
+        display:flex;
+        justify-content: center;
+        flex-wrap:wrap;
+        div{
+            margin:0 15px;
+            font-size:.8rem;
+            width:150px;
+            text-align:center;
+            a{
+                color:$primary-color;
+                text-decoration: none;
+            }
+        }
+        @media screen and (max-width:540px) {
+            flex-direction:column;
+            div{
+                margin:5px 0;
+            }
+        }
+    }
+    .footer-container__copyright{
+        font-size:.7rem;
+    }
+
+}

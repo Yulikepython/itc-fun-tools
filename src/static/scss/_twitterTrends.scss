@@ -1,0 +1,56 @@
+$trends-main-color:#050828;
+$trends-form-height:240px;
+@keyframes blink {50% { color: transparent }}
+
+.top-trends-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    .trends-container{
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height:$trends-form-height;
+        width:90%;
+        max-width:450px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        margin-top:20px;
+        h3{
+            margin:20px auto;
+            text-align:center;
+        }
+        select{
+            width:90%;
+            margin:auto;
+        }
+        button{
+            color:$trends-main-color;
+            padding:7px 16px;
+            border-radius:100vh;
+            border:1px solid $trends-main-color;
+            border-bottom: 5px solid $trends-main-color;
+            background-color: #f4f4f4;
+        }
+
+        button:hover {
+            margin-top: 3px;
+            border-bottom: 2px solid $trends-main-color;
+        }
+
+        button:focus{
+            background-color: #bdbaba;
+        }
+    }
+    #trendsResult{
+        margin:30px auto;
+        div{
+            margin:10px 0;
+        }
+    }
+    .blink{
+        margin-top:20px;
+        animation: 1.5s blink infinite;
+    }
+}
