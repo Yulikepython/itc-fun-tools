@@ -1,9 +1,7 @@
 import { lazy } from "react"
 
 export const Qrmaker = lazy(() => import("../apps/QRTopPage"))
-export const HeicConverter = lazy(() => import("../apps/HeicConverter"))
 export const YearConverter = lazy(() => import("../apps/YearConverter"))
-export const PicSizeChanger = lazy(() => import("../apps/PicSizeChanger"))
 export const RandomStringGenerator = lazy(() => import("../apps/RandomStringGenerator"))
 export const BlogCloud = lazy(() => import("../apps/BlogCloud"))
 export const WordCounter = lazy(() => import("../apps/WordCounter"))

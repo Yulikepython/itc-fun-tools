@@ -115,12 +115,8 @@ const App = () => {
         <Suspense fallback={<SpinnerComponent />}>
           <Routes>
             <Route exact path="qrmaker" element={<lazyLoader.Qrmaker transferPage={transferPage} />} />
-            {/* <Route exact path="/faviconmaker" element={<lazyLoader.FaviconMaker />} /> */}
-            <Route path="heicConverter" element={<lazyLoader.HeicConverter transferPage={transferPage} />} />
-            <Route exact path="change-pics-size" element={<lazyLoader.PicSizeChanger transferPage={transferPage} />} />
             <Route exact path="yearConverter" element={<lazyLoader.YearConverter transferPage={transferPage} />} />
             <Route exact path="blog-cloud" element={<lazyLoader.BlogCloud transferPage={transferPage} />} />
-            <Route exact path="get-trends" element={<lazyLoader.TwitterTrends transferPage={transferPage} />} />
             <Route exact path="get-random-string" element={<lazyLoader.RandomStringGenerator transferPage={transferPage} />} />
             <Route exact path="wordcounter" element={<lazyLoader.WordCounter transferPage={transferPage} />} />
             <Route exact path="hashapp" element={<lazyLoader.Hashapp transferPage={transferPage} />} />

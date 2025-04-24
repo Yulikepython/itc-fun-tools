@@ -46,26 +46,6 @@ const appsList = [
         searchq: "ランダム random 文字 パスワード 生成",
         id: "randomstring",
     },
-    //heic jpg 変換 インストール不要 => 1K
-    {
-        appName: "【無料】Heic画像をjpgへ変換｜インストール不要",
-        icon: "bi bi-card-image",
-        linkTo: "/heicconverter",
-        color: "#faff80",
-        description: "iPhoneで撮影したHeic形式の画像をJPGへ変換します。複数枚でも可能ですが、多すぎるとエラーになるので、できれば少しずつ。",
-        searchq: "heic jpg 画像 変換 image pic",
-        id: "heicconverter",
-    },
-    {
-        appName: "画像サイズ変換",
-        icon: "bi bi-arrow-left-right",
-        linkTo: "/change-pics-size",
-        color: "#95e482",
-        description: "JPG画像のサイズ変更アプリ。複数枚でも可能ですが、多すぎるとエラーになるので、できれば少しずつ。",
-        searchq: "画像　サイズ　変換　縮小　拡大 image pic size bigger smaller change convert",
-        id: "picsizechanger",
-
-    },
     {
         appName: "ワードカウンター",
         icon: "bi bi-fonts",
