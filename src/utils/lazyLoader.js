@@ -19,10 +19,6 @@ export const Contact = lazy(() => import("../pages/Contact"))
 export const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"))
 export const Error404 = lazy(() => import("../pages/Error404"))
 
-//使っていない
-export const TwitterTrends = lazy(() => import("../apps/TwitterTrends")) //まだ取っておく
-export const FaviconMaker = lazy(() => import("../apps/FaviconMaker"))
-
 
 
 
