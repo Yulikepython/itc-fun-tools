@@ -8,7 +8,7 @@ import { ToolsProviders } from "./utils/ToolsPrividers"
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ToolsProviders>
-      <BrowserRouter>  
+      <BrowserRouter basename="/itc-fun-tools">  
         <App />
       </BrowserRouter>
     </ToolsProviders>
