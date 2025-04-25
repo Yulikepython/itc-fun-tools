@@ -1,127 +1,316 @@
 @use "./variables" as *;
-//ある一定の幅でmedia query
-$blogcloud-main-color:#050828;
-$blog-form-height:280px;
-@keyframes blink {50% { color: transparent }}
+$blogcloud-main-color: #050828;
+$blog-form-height: 320px;
+$primary-accent: #3498db;
+$error-color: #e74c3c;
 
-.blogcloud-container{
-    display:flex;
-    flex-direction:column;
+@keyframes blink {
+  50% { color: transparent }
+}
+
+.blogcloud-container {
+    display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding:20px;
-    width:100%;
-    .blogcloud-form-container{
-        width:40%;
-        max-width:600px;
-        min-height:$blog-form-height;
+    padding: 20px;
+    width: 100%;
+    max-width: 1400px; // より広いコンテナ幅
+    margin: 0 auto;
+    
+    .blogcloud-header {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+        
+        h1 {
+            font-size: 2.2em;
+            color: $blogcloud-main-color;
+            margin-bottom: 15px;
+        }
+        
+        .blogcloud-description {
+            font-size: 1.1em;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+    }
+    
+    .blogcloud-content {
+        display: flex;
+        width: 100%;
+        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start; // コンポーネントの上端を揃える
+    }
+    
+    .blogcloud-form-container {
+        width: 45%; // 幅を拡大
+        max-width: 650px; // 最大幅も拡大
+        min-width: 320px;
+        min-height: $blog-form-height;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-        form{
-            min-height:$blog-form-height;
-            padding:20px 0;
-            display:flex;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 25px; // パディングを増加
+        margin: 0 auto; // 中央揃え
+        
+        .cloud-form {
+            min-height: $blog-form-height;
+            display: flex;
             flex-direction: column;
             justify-content: space-between;
-            align-items: center;
+            gap: 20px;
+            width: 100%; // フォームの幅を100%に
+            
+            .input-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                width: 100%; // 入力グループの幅を100%に
+                
+                label {
+                    font-weight: 600;
+                    color: $blogcloud-main-color;
+                    font-size: 1.05em;
+                    display: block; // ブロック要素として表示
+                    width: 100%;
+                }
+                
+                .form-control {
+                    border: none;
+                    border-bottom: 1px solid $blogcloud-main-color;
+                    padding: 10px 5px; // パディングを追加
+                    font-size: 1em;
+                    transition: border-color 0.3s;
+                    width: 100%; // 入力要素の幅を100%に
+                    display: block; // ブロック要素として表示
+                    background-color: #fafafa; // 背景色を追加して視覚的に目立たせる
+                    
+                    &:focus {
+                        outline: none;
+                        border-bottom: 2px solid $primary-accent;
+                        background-color: #f2f7fd; // フォーカス時の背景色
+                    }
+                }
+                
+                .error-message {
+                    color: $error-color;
+                    font-size: 0.9em;
+                    min-height: 20px;
+                }
+                
+                .form-helper {
+                    font-size: 0.85em;
+                    color: #777;
+                    margin-top: 4px;
+                    font-style: italic;
+                }
+            }
+            
+            .generate-button {
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                border: none;
+                background-color: $primary-accent;
+                font-weight: 600;
+                font-size: 1.1em;
+                transition: all 0.2s ease;
+                cursor: pointer;
+                margin-top: 15px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                width: 100%; // ボタンの幅を100%に
+                max-width: 300px; // 最大幅を設定
+                margin-left: auto;
+                margin-right: auto;
+                
+                &:hover {
+                    background-color: darken($primary-accent, 10%);
+                    transform: translateY(-2px);
+                }
+                
+                &:disabled {
+                    background-color: #ccc;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+                
+                .button-icon {
+                    font-size: 1.2em;
+                }
+            }
         }
-        input{
-            border:none;
-            border-bottom:1px solid $blogcloud-main-color;
-            width:90%;
-            margin:auto;
-            max-width:500px;
-        }
-        button{
-            color:$blogcloud-main-color;
-            padding:7px 12px;
-            border-radius:100vh;
-            border:1px solid $blogcloud-main-color;
-            border-bottom: 5px solid $blogcloud-main-color;
-            background-color: #f4f4f4;
-           
-        }
-
-        button:hover {
-            margin-top: 3px;
-            border-bottom: 2px solid $blogcloud-main-color;
-        }
-
-        button:focus{
-            background-color: #bdbaba;
-        }
-
     }
-    #blogShowCase{
-        width:60%;
-        display:flex;
+    
+    #blogShowCase {
+        width: 45%; // 幅を拡大
+        min-width: 320px;
+        max-width: 650px; // 最大幅を制限
+        display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        align-items:center;
-        margin-top:30px;
-        #showPng{
-            width:100%;
-            img{
-                width:100%;
+        align-items: center;
+        margin: 0 auto; // 中央揃え
+        
+        .error-banner {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba($error-color, 0.1);
+            border-left: 4px solid $error-color;
+            color: darken($error-color, 10%);
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .loading-text {
+            font-size: 1.2em;
+            color: $blogcloud-main-color;
+            margin-bottom: 20px;
+        }
+        
+        .blink {
+            animation: 1.5s blink infinite;
+        }
+        
+        .wordcloud-display {
+            width: 100%;
+            margin-bottom: 15px;
+            
+            img {
+                width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             }
         }
-        #imageURL{
-            width:100%;
-            text-align:center;
-            margin:10px auto;
-            a{
+        
+        .download-area {
+            width: 100%;
+            text-align: center;
+            margin: 15px 0;
+            
+            a {
+                display: inline-block;
+                padding: 10px 16px;
+                background-color: #27ae60;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: 500;
+                transition: background-color 0.3s;
                 
+                &:hover {
+                    background-color: darken(#27ae60, 10%);
+                }
             }
         }
-        #showWords{
-            display:none;
-            margin-top:20px;
-            width:100%;
-            padding:20px;
-            box-shadow: $blogcloud-main-color 0px 0px 0px 3px;
-            h3{
-                text-align:center;
-                text-decoration: underline;
+        
+        #showWords {
+            display: none;
+            margin-top: 25px;
+            width: 100%;
+            padding: 20px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            border-radius: 8px;
+            background-color: white;
+            
+            h3 {
+                text-align: center;
+                margin-bottom: 15px;
+                color: $blogcloud-main-color;
+                font-size: 1.4em;
+                border-bottom: 2px solid $primary-accent;
+                padding-bottom: 8px;
             }
-            .wordsList{
-                text-align:center;
-                .wordsList-row{
-                    border-bottom:1px solid #948f8f;
-                    padding-bottom:5px;
-                    width:250px;
-                    margin:auto;
-                    display:flex;
-                    justify-content: center;
+            
+            .wordsList {
+                text-align: center;
+                
+                .wordsList-row {
+                    border-bottom: 1px solid #eee;
+                    padding: 8px 0;
+                    width: 100%;
+                    max-width: 350px;
+                    margin: 0 auto;
+                    display: flex;
+                    justify-content: space-between;
                     align-items: center;
-                    div{
-                        width:50%;
+                    
+                    &:last-child {
+                        border-bottom: none;
                     }
-                    .word-title{
-                        text-align:right;
+                    
+                    div {
+                        width: 50%;
                     }
-                    .word-numbers{
-                        text-align:left;
-                        padding-left:10px;
+                    
+                    .word-title {
+                        text-align: right;
+                        font-weight: 500;
+                        padding-right: 15px;
+                    }
+                    
+                    .word-numbers {
+                        text-align: left;
+                        color: $primary-accent;
                     }
                 }
             }
         }
-        .blink{
-            animation: 1.5s blink infinite;
+    }
+    
+    // レスポンシブ対応の強化
+    @media screen and (max-width: 1100px) {
+        .blogcloud-content {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .blogcloud-form-container {
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        
+        #blogShowCase {
+            width: 80%;
+            max-width: 600px;
         }
     }
-    @media screen and (max-width:800px) {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        .blogcloud-form-container{
-            width:90%;
-            margin-bottom:20px;
+    
+    @media screen and (max-width: 768px) {
+        .blogcloud-form-container,
+        #blogShowCase {
+            width: 95%;
+            min-width: 280px;
         }
-        #blogShowCase{
-            width:90%;
-            min-height:0;
+        
+        .blogcloud-header h1 {
+            font-size: 1.8em;
+        }
+        
+        .blogcloud-description {
+            font-size: 0.95em;
         }
     }
-
+    
+    @media screen and (max-width: 480px) {
+        padding: 10px;
+        
+        .blogcloud-form-container {
+            padding: 15px;
+        }
+        
+        .cloud-form .generate-button {
+            padding: 10px 15px;
+            font-size: 1em;
+        }
+    }
 }
 
