@@ -1,58 +1,173 @@
 @use "./variables" as *;
 
-$random-main-color:#050828;
-$random-form-height:280px;
-@keyframes blink {50% { color: transparent }}
+$random-main-color: #050828;
+$random-form-height: auto;
+$strength-colors: (
+  1: #ff3e36,  // 非常に弱い
+  2: #ff691f,  // 弱い
+  3: #ffda36,  // 普通
+  4: #9dc560,  // 強い
+  5: #368700   // 非常に強い
+);
 
-.top-random-container{
-    display:flex;
+@keyframes blink {
+  50% { color: transparent; }
+}
+
+.top-random-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  
+  .random-container {
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    .random-container{
-        display:flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        height:$random-form-height;
-        width:90%;
-        max-width:450px;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-        margin-top:20px;
-        h3{
-            margin:20px auto 30px auto;
-            text-align:center;
-        }
-        input{
-            width:100px;
-            margin:auto;
-        }
-        button{
-            color:$random-main-color;
-            padding:7px 16px;
-            border-radius:100vh;
-            border:1px solid $random-main-color;
-            border-bottom: 5px solid $random-main-color;
-            background-color: #f4f4f4;
-        }
-
-        button:hover {
-            margin-top: 3px;
-            border-bottom: 2px solid $random-main-color;
-        }
-
-        button:focus{
-            background-color: #bdbaba;
-        }
+    min-height: $random-form-height;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    
+    h3 {
+      margin: 0 auto 30px auto;
+      text-align: center;
+      color: $random-main-color;
+      font-weight: 600;
     }
-    #generatedResult{
-        margin:30px auto;
-        div{
-            margin:10px 0;
+    
+    input[type="number"] {
+      width: 100px;
+      margin: auto;
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .form-check {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      
+      .form-check-input {
+        margin-right: 10px;
+      }
+    }
+    
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .btn.generate-btn {
+      color: white;
+      padding: 10px 20px;
+      border-radius: 100vh;
+      border: none;
+      background-color: $random-main-color;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      font-weight: 500;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
+  .result-container {
+    width: 100%;
+    max-width: 450px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    #generatedResult {
+      width: 100%;
+      word-break: break-all;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      border: 1px solid #e9ecef;
+      margin-bottom: 20px;
+      font-family: monospace;
+      font-size: 16px;
+      
+      div {
+        margin: 0;
+        text-align: center;
+      }
+    }
+    
+    .password-strength-container {
+      width: 100%;
+      margin: 0 0 20px 0;
+      
+      .strength-label {
+        font-size: 14px;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      
+      .strength-meter {
+        width: 100%;
+        height: 8px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+        
+        .strength-meter-fill {
+          height: 100%;
+          border-radius: 4px;
+          transition: width 0.3s ease, background-color 0.3s ease;
         }
+      }
     }
-    .blink{
-        margin-top:20px;
-        animation: 1.5s blink infinite;
+    
+    .btn.copy-btn {
+      padding: 8px 16px;
+      border-radius: 4px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #5a6268;
+      }
+      
+      &.copied {
+        background-color: #28a745;
+        
+        &:hover {
+          background-color: #218838;
+        }
+      }
     }
+  }
+  
+  .blink {
+    margin-top: 20px;
+    animation: 1.5s blink infinite;
+    font-style: italic;
+    color: $random-main-color;
+  }
 }
