@@ -32,7 +32,7 @@ const calculatePasswordStrength = (password) => {
     if (/[0-9]/.test(password)) score += 1;
     if (/[^A-Za-z0-9]/.test(password)) score += 1;
     
-    // スコアの最大値は7
+    // スコアの最大値は5
     return Math.min(score, 5);
 };
 
@@ -136,13 +136,6 @@ const RandomStringGenerator = ({ transferPage }) => {
             // パスワード強度を計算
             const strength = calculatePasswordStrength(newGeneratedString);
             setPasswordStrength(strength);
-            
-            // 結果表示領域を更新
-            const resultDiv = document.getElementById("generatedResult");
-            resultDiv.innerText = "";
-            const newElem = document.createElement("div");
-            newElem.innerText = newGeneratedString;
-            resultDiv.appendChild(newElem);
             
             // 読み込み状態を解除
             setLoading(false);
@@ -249,7 +242,9 @@ const RandomStringGenerator = ({ transferPage }) => {
                     {loading && <div className="blink">generating...</div>}
                     
                     <div className="result-container">
-                        <div id="generatedResult" className="mb-2"></div>
+                        {generatedString && (
+                            <div className="mb-2">{generatedString}</div>
+                        )}
                         
                         {generatedString && (
                             <>
