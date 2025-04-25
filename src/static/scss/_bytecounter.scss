@@ -1,0 +1,220 @@
+// filepath: /home/yulikepython/dev/vite-tools/itc-tools/src/static/scss/_bytecounter.scss
+@use "./variables" as *;
+
+$bytecounter-primary: #2c3e50;
+$bytecounter-accent: #27ae60;
+
+.bytecounter-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  
+  .bytecounter-header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .bytecounter-description {
+      font-size: 16px;
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+  
+  .bytecounter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+    
+    .textarea-container {
+      flex: 1;
+      
+      form {
+        width: 100%;
+        
+        .bytecounter-textarea {
+          width: 100%;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          padding: 15px;
+          font-family: 'Noto Sans JP', sans-serif;
+          font-size: 16px;
+          min-height: 300px;
+          resize: vertical;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+          transition: all 0.3s;
+          
+          &:focus {
+            border-color: $bytecounter-accent;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+            outline: none;
+          }
+          
+          &::placeholder {
+            color: #aaa;
+          }
+        }
+      }
+    }
+    
+    .bytecounter-results {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      
+      @media screen and (min-width: 768px) {
+        min-width: 320px;
+        max-width: 400px;
+      }
+      
+      .result-panel {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        
+        .result-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 15px;
+          
+          h3 {
+            font-size: 18px;
+            color: $bytecounter-primary;
+            margin-bottom: 10px;
+          }
+          
+          .byte-count {
+            font-size: 32px;
+            font-weight: bold;
+            color: $bytecounter-accent;
+          }
+        }
+        
+        .result-info {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          background: rgba(39, 174, 96, 0.1);
+          border-radius: 6px;
+          padding: 12px;
+          
+          .info-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+          }
+          
+          .info-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+          }
+        }
+      }
+      
+      .hex-result {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        
+        .hex-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+          
+          h3 {
+            font-size: 18px;
+            color: $bytecounter-primary;
+            margin: 0;
+          }
+          
+          .copy-button {
+            background: $bytecounter-accent;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            
+            &:hover {
+              background: darken($bytecounter-accent, 10%);
+            }
+          }
+        }
+        
+        .hex-code {
+          background: #fff;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          padding: 15px;
+          max-height: 200px;
+          overflow-y: auto;
+          
+          .hex-content {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            color: #333;
+            line-height: 1.5;
+          }
+          
+          .hex-placeholder {
+            color: #999;
+            text-align: center;
+            padding: 20px 0;
+            font-style: italic;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .bytecounter-container {
+    padding: 15px;
+    
+    .bytecounter-header {
+      h1 {
+        font-size: 24px;
+      }
+    }
+    
+    .bytecounter-content {
+      .textarea-container {
+        form {
+          .bytecounter-textarea {
+            min-height: 200px;
+          }
+        }
+      }
+      
+      .bytecounter-results {
+        .result-panel {
+          .result-header {
+            .byte-count {
+              font-size: 28px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

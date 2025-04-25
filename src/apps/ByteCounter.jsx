@@ -47,17 +47,23 @@ const stringToHex = (str) => {
     var hex_str1 = bytes_to_hex_string(bytes1);
     return hex_str1;
 }
+
 const ByteCounter = ({ transferPage }) => {
     const [byteCount, setByteCount] = useState(0)
     const [byteStr, setByteStr] = useState("")
+    const [text, setText] = useState("")
+    
     useEffect(() => {
         transferPage()
     }, [])
 
     const handleChange = e => {
+        const inputText = e.target.value;
+        setText(inputText);
+        
         switch (e.target.name) {
             case "text":
-                const bTxt = stringToHex(e.target.value)
+                const bTxt = stringToHex(inputText)
                 setByteCount(() => bTxt.length / 2);
                 setByteStr(() => bTxt);
                 break;
@@ -65,17 +71,72 @@ const ByteCounter = ({ transferPage }) => {
                 console.log("That name is not found.")
         }
     }
+    
+    const copyToClipboard = (content) => {
+        navigator.clipboard.writeText(content);
+        alert('クリップボードにコピーしました');
+    };
+    
     return (
-        <div className="wordcounterContainer">
-            <h1>バイト数カウントツール：HEXに変換/2</h1>
-            <form>
-                <textarea name="text" onChange={handleChange} rows={15} cols={30} />
-            </form>
-            <div className="mb-4 mt-2">
-                HEX（16進数）：{byteStr}
+        <div className="bytecounter-container">
+            <div className="bytecounter-header">
+                <h1>バイト数カウントツール</h1>
+                <p className="bytecounter-description">
+                    テキストのバイト数を計算し、UTF-8エンコーディングでのHEX（16進数）表現を表示します。
+                </p>
             </div>
-            <div className="mb-4 mt-2">
-                バイト数（utf-8）：{byteCount}
+            
+            <div className="bytecounter-content">
+                <div className="textarea-container">
+                    <form>
+                        <textarea 
+                            name="text" 
+                            onChange={handleChange} 
+                            value={text}
+                            rows={15} 
+                            placeholder="ここにテキストを入力してください..."
+                            className="bytecounter-textarea"
+                        />
+                    </form>
+                </div>
+                
+                <div className="bytecounter-results">
+                    <div className="result-panel">
+                        <div className="result-header">
+                            <h3>バイト数 (UTF-8)</h3>
+                            <div className="byte-count">{byteCount} bytes</div>
+                        </div>
+                        
+                        <div className="result-info">
+                            <div className="info-icon">ℹ️</div>
+                            <div className="info-text">1文字が複数バイトで表現される場合があります（特に日本語などの多バイト文字）</div>
+                        </div>
+                    </div>
+                    
+                    {byteStr && (
+                        <div className="hex-result">
+                            <div className="hex-header">
+                                <h3>HEX（16進数）表現</h3>
+                                <button 
+                                    className="copy-button" 
+                                    onClick={() => copyToClipboard(byteStr)}
+                                    title="HEX表現をクリップボードにコピー"
+                                >
+                                    コピー
+                                </button>
+                            </div>
+                            <div className="hex-code">
+                                {byteStr.length > 0 ? (
+                                    <div className="hex-content">
+                                        {byteStr}
+                                    </div>
+                                ) : (
+                                    <div className="hex-placeholder">テキストを入力するとHEX表現が表示されます</div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )
