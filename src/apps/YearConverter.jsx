@@ -27,6 +27,14 @@ const ERA_NAMES = {
   t: "大正"
 }
 
+// 元号ごとのカラースタイル定義
+const ERA_COLORS = {
+  r: "#E57373", // 令和：赤系
+  h: "#64B5F6", // 平成：青系
+  s: "#81C784", // 昭和：緑系
+  t: "#FFD54F"  // 大正：黄系
+}
+
 // 和暦 -> 西暦
 function convertToAD(eraChar, year) {
   if (!ERA_BOUNDS[eraChar]) return null;
@@ -85,10 +93,16 @@ function convertDate(inputStr) {
     
     // 変換できない場合（大正より前など）
     if (!result) {
-      return "変換できない年代です（大正以前はサポートしていません）";
+      return {
+        text: "変換できない年代です（大正以前はサポートしていません）",
+        era: null
+      };
     }
     
-    return `${result.eraName}${result.year}年${monthPart.replace('-', '')}${dayPart.replace('-', '')}`;
+    return {
+      text: `${result.eraName}${result.year}年${monthPart.replace('-', '')}${dayPart.replace('-', '')}`,
+      era: result.era
+    };
   }
   // 和暦の場合（アルファベットで始まる）
   else {
@@ -96,7 +110,10 @@ function convertDate(inputStr) {
     const eraYear = yearPart.substring(1);
     
     if (!ERA_NAMES[eraChar]) {
-      return "不正な元号です（r, h, s, tのいずれかで始めてください）";
+      return {
+        text: "不正な元号です（r, h, s, tのいずれかで始めてください）",
+        era: null
+      };
     }
     
     // 西暦に変換
@@ -104,10 +121,16 @@ function convertDate(inputStr) {
     
     // 変換できない場合
     if (!adYear) {
-      return "変換できない年代です";
+      return {
+        text: "変換できない年代です",
+        era: null
+      };
     }
     
-    return `西暦${adYear}年${monthPart.replace('-', '')}${dayPart.replace('-', '')}`;
+    return {
+      text: `西暦${adYear}年${monthPart.replace('-', '')}${dayPart.replace('-', '')}`,
+      era: "western"
+    };
   }
 }
 
@@ -122,29 +145,20 @@ const validate = Yup.object({
 })
 
 const YearConverter = ({ transferPage }) => {
-    const [result, setResult] = useState("");
+    const [conversionResult, setConversionResult] = useState(null);
+    const [isResultVisible, setIsResultVisible] = useState(false);
 
     useEffect(() => {
         transferPage()
     }, [])
 
     const submitHandler = (values, actions) => {
-        const showResult = document.getElementById("showResultYearConverter")
-        
-        // 結果表示領域をクリア
-        showResult.style.display = "none"
-        while (showResult.firstChild) {
-            showResult.removeChild(showResult.lastChild)
-        }
-        
         // クライアントサイドで変換処理
-        const convertedResult = convertDate(values.value);
+        const result = convertDate(values.value);
         
-        // 結果を表示
-        var resultDiv = document.createElement("div")
-        resultDiv.innerText = convertedResult
-        showResult.appendChild(resultDiv)
-        showResult.style.display = "flex"
+        // 結果を状態に保存
+        setConversionResult(result);
+        setIsResultVisible(true);
 
         // フォームをリセット
         actions.resetForm({
@@ -152,6 +166,22 @@ const YearConverter = ({ transferPage }) => {
                 value: "",
             }
         })
+    }
+
+    // 結果表示のスタイルを元号に基づいて取得
+    const getResultStyle = () => {
+        if (!conversionResult || !conversionResult.era) {
+            return { borderColor: "#f44336" }; // エラーメッセージの場合は赤色
+        }
+        
+        if (conversionResult.era === "western") {
+            return { borderColor: "#3f51b5" }; // 西暦の場合は藍色
+        }
+        
+        return { 
+            borderColor: ERA_COLORS[conversionResult.era],
+            boxShadow: `0 0 8px ${ERA_COLORS[conversionResult.era]}`
+        };
     }
 
     return (
@@ -164,37 +194,98 @@ const YearConverter = ({ transferPage }) => {
         >
             {() => {
                 return (
-                    <div className="yearConverter-container">
-                        <h2>西暦・和暦変換アプリ</h2>
-                        <div className="how-to">
-                            <button
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#howToUseYearConverter"
-                                className="modalBtn-howto"
-                            >
-                                ※使い方はこちら
-                            </button>
-                        </div>
-                        <Form>
-                            <Field
-                                name="value"
-                                type="text"
-                                placeholder="年-月-日"
-                                className="form-control my-3"
-                                id="input-datetime"
-                            >
-                            </Field>
-                            <div className="yearConverter-error">
-                                <ErrorMessage name="value" id="input-error" />
+                    <div className="container d-flex flex-column justify-content-center align-items-center h-100 my-5" style={{ maxWidth: '800px' }}>
+                        <div className="card w-100 shadow">
+                            <div className="card-header bg-primary text-white py-3">
+                                <h2 className="text-center mb-0">西暦・和暦変換アプリ</h2>
                             </div>
-                            <button type="submit" id="convert-btn">
-                                変換する
-                            </button>
-                        </Form>
+                            <div className="card-body p-4">
+                                <div className="d-flex justify-content-end mb-4">
+                                    <button
+                                        type="button"
+                                        data-toggle="modal"
+                                        data-target="#howToUseYearConverter"
+                                        className="btn btn-sm btn-outline-info px-3"
+                                    >
+                                        <i className="fas fa-question-circle mr-2"></i> 使い方
+                                    </button>
+                                </div>
+                                
+                                <Form className="mb-4">
+                                    <div className="input-group mb-4">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text">
+                                                <i className="fas fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <Field
+                                            name="value"
+                                            type="text"
+                                            placeholder="年-月-日（例: 2021-4-1 または r3-4-1）"
+                                            className="form-control py-2"
+                                            id="input-datetime"
+                                            autoComplete="off"
+                                        />
+                                        <div className="input-group-append">
+                                            <button 
+                                                type="submit" 
+                                                className="btn btn-primary px-4" 
+                                                id="convert-btn"
+                                                style={{ minWidth: '100px' }}
+                                            >
+                                                変換
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="yearConverter-error text-danger mb-3 px-2">
+                                        <ErrorMessage name="value" id="input-error" />
+                                    </div>
+                                </Form>
+
+                                {isResultVisible && (
+                                    <div className="my-5 py-2">
+                                        <h5 className="text-center mb-4">変換結果</h5>
+                                        <div 
+                                            className="result-container p-4 rounded text-center mx-auto" 
+                                            style={{
+                                                border: '2px solid',
+                                                transition: 'all 0.3s ease',
+                                                fontSize: '1.3rem',
+                                                fontWeight: 'bold',
+                                                backgroundColor: '#f8f9fa',
+                                                maxWidth: '500px',
+                                                ...getResultStyle()
+                                            }}
+                                        >
+                                            {conversionResult.text}
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                <div className="era-legend mt-5 pt-3">
+                                    <h6 className="text-center mb-3 text-secondary">元号カラーガイド</h6>
+                                    <div className="d-flex justify-content-center flex-wrap">
+                                        <div className="era-item mx-3 mb-3 px-4 py-2 rounded shadow-sm" style={{backgroundColor: ERA_COLORS.r, color: 'white'}}>
+                                            令和
+                                        </div>
+                                        <div className="era-item mx-3 mb-3 px-4 py-2 rounded shadow-sm" style={{backgroundColor: ERA_COLORS.h, color: 'white'}}>
+                                            平成
+                                        </div>
+                                        <div className="era-item mx-3 mb-3 px-4 py-2 rounded shadow-sm" style={{backgroundColor: ERA_COLORS.s, color: 'white'}}>
+                                            昭和
+                                        </div>
+                                        <div className="era-item mx-3 mb-3 px-4 py-2 rounded shadow-sm" style={{backgroundColor: ERA_COLORS.t, color: 'black'}}>
+                                            大正
+                                        </div>
+                                        <div className="era-item mx-3 mb-3 px-4 py-2 rounded shadow-sm" style={{backgroundColor: '#3f51b5', color: 'white'}}>
+                                            西暦
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <HowToUseYearConverter />
-                        <div id="showResultYearConverter"></div>
                     </div>
                 )
             }}
