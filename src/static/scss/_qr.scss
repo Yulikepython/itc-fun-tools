@@ -1,49 +1,227 @@
 @use "./variables" as *;
-$qr-main-color:#050828;
-$qr-form-height:240px;
+$qr-main-color: #3949ab;
+$qr-accent-color: #5c6bc0;
+$qr-form-height: auto;
 
-.top-qr-container{
-    display:flex;
+.qr-app-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.top-qr-container {
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    .qr-container{
-        display:flex;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    
+    .qr-container {
+        display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        height:$qr-form-height;
-        width:90%;
-        max-width:450px;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-        margin-top:20px;
-        h2{
-            margin:20px auto;
-            text-align:center;
+        width: 100%;
+        max-width: 550px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        margin: 20px auto;
+        padding: 24px;
+        border-radius: 12px;
+        background-color: #f8f9fa;
+        
+        h2 {
+            margin: 10px auto 16px;
+            text-align: center;
+            color: $qr-main-color;
+            font-weight: 600;
         }
-        input{
-            width:90%;
-            margin:auto;
+        
+        .qr-description {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
-        button{
-            color:$qr-main-color;
-            padding:7px 16px;
-            border-radius:100vh;
-            border:1px solid $qr-main-color;
-            border-bottom: 5px solid $qr-main-color;
-            background-color: #f4f4f4;
+        
+        .input-area {
+            width: 100%;
+            margin-bottom: 20px;
+            
+            label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 500;
+                color: #333;
+            }
+            
+            input {
+                width: 100%;
+                padding: 12px 16px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                
+                &:focus {
+                    border-color: $qr-main-color;
+                    box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.2);
+                    outline: none;
+                }
+            }
+            
+            .error-message {
+                margin-top: 8px;
+                font-size: 0.85rem;
+                font-weight: 500;
+            }
         }
-
-        button:hover {
-            margin-top: 3px;
-            border-bottom: 2px solid $qr-main-color;
-        }
-
-        button:focus{
-            background-color: #bdbaba;
+        
+        .generate-button {
+            color: white;
+            background-color: $qr-main-color;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            
+            .button-icon {
+                margin-right: 8px;
+            }
+            
+            &:hover {
+                background-color: $qr-accent-color;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+            
+            &:active {
+                transform: translateY(0px);
+                box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            }
+            
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.3);
+            }
         }
     }
-    #qrShowPng{
-        margin:30px auto;
+    
+    .qr-result-area {
+        width: 100%;
+        max-width: 550px;
+        margin: 0 auto 30px;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        
+        &.active {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .qr-show-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            
+            .qr-image {
+                border: 1px solid #eee;
+                padding: 20px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+            
+            .qr-text-info {
+                margin-top: 15px;
+                color: #555;
+                font-size: 0.9rem;
+                text-align: center;
+                word-break: break-all;
+                max-width: 250px;
+            }
+        }
+        
+        .qr-download-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            
+            .download-button {
+                display: inline-block;
+                background-color: #4CAF50;
+                color: white;
+                padding: 12px 24px;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 500;
+                text-align: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                
+                &:hover {
+                    background-color: #45a049;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+                    transform: translateY(-2px);
+                }
+                
+                &:active {
+                    transform: translateY(0px);
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* レスポンシブデザイン対応 */
+@media (max-width: 600px) {
+    .qr-app-wrapper {
+        padding: 10px;
+    }
+    
+    .top-qr-container {
+        .qr-container {
+            padding: 16px;
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .generate-button {
+                width: 100%;
+            }
+        }
+        
+        .qr-result-area {
+            padding: 16px;
+        }
     }
 }
