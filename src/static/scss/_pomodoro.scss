@@ -5,6 +5,7 @@
     align-items: center;
     max-width: 900px;
     margin: 2em auto;
+    color: #333;
 
     p {
         margin: 0;
@@ -16,11 +17,20 @@
         text-align: end;
         font-size: 1.2em;
         font-weight: 500;
+        
+        .badge {
+            padding: 0.5em 1em;
+            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
     }
 
     .text-title {
         font-size: 9em;
         font-weight: 700;
+        color: #2c3e50;
     }
 
     .btn-area {
@@ -32,18 +42,32 @@
         button {
             width: 30%;
             max-width: 200px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
         }
-
     }
 
     .pomodoro-area {
+        width: 100%;
+        padding: 1em;
+        
         * {
             margin-bottom: 10px;
         }
 
         .pomodoro-title {
             font-weight: 600;
-            text-decoration: underline;
+            text-decoration: none;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
         }
 
         .form-row {
@@ -53,6 +77,33 @@
             span {
                 display: block;
                 margin-right: 10px;
+                color: #555;
+            }
+            
+            .memo-input {
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 8px 12px;
+                
+                &:focus {
+                    border-color: #7f8c8d;
+                    box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.15);
+                }
+            }
+            
+            .edit-btn, .remover-btn {
+                border-radius: 4px;
+                margin-left: 5px;
+            }
+        }
+        
+        #pomodoro-sum {
+            .badge {
+                background-color: #34495e !important;
+                color: white;
+                padding: 0.5em 1em;
+                border-radius: 4px;
+                font-weight: normal;
             }
         }
     }

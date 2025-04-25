@@ -19,6 +19,36 @@
         min-height:180px;
         padding:20px;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        
+        .input-group {
+            .input-group-prepend {
+                .input-group-text {
+                    padding: 0.5rem 1rem;
+                    background-color: #f8f9fa;
+                    border-right: none;
+                    
+                    i {
+                        font-size: 1.2rem;
+                        color: #6c757d;
+                    }
+                }
+            }
+            
+            .form-control {
+                border-left: none;
+                border-right: none;
+                padding-left: 0.5rem;
+            }
+            
+            .input-group-append {
+                .btn-primary {
+                    margin-left: 5px; // ボタンと入力フィールドの間隔を追加
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
+        
         input{
             width:80%;
         }
