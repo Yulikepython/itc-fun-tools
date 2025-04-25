@@ -124,6 +124,7 @@ const App = () => {
             <Route exact path="byte-counter" element={<lazyLoader.ByteCounter transferPage={transferPage} />} />
             <Route exact path="json-prettier" element={<lazyLoader.JsonPretty transferPage={transferPage} />} />
             <Route exact path="pomodoro-timer" element={<lazyLoader.Pomodoro transferPage={transferPage} />} />
+            <Route exact path="color-palette" element={<lazyLoader.ColorPalette transferPage={transferPage} />} />
             <Route exact path="privacy-policy" element={<lazyLoader.PrivacyPolicy transferPage={transferPage} />} />
             <Route exact path="contact" element={<lazyLoader.Contact setMsgFrame={setMsgFrame} toggleMessage={toggleMessage} transferPage={transferPage} />} />
 

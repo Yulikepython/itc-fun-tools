@@ -10,6 +10,7 @@ export const PrivacyPolicyMaker = lazy(() => import("../apps/PrivacyPolicyMaker"
 export const ByteCounter = lazy(() => import("../apps/ByteCounter"))
 export const JsonPretty = lazy(() => import("../apps/JsonPretty"))
 export const Pomodoro = lazy(() => import("../apps/Pomodoro/Pomodoro"))
+export const ColorPalette = lazy(() => import("../apps/ColorPalette"))
 
 //固定ページ
 export const LandingPage = lazy(() => import("../pages/LandingPage"))

@@ -1,0 +1,60 @@
+.color-palette-container {
+  .color-sample {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+      background-color: #f8f9fa;
+      
+      h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+  
+  .base-color-selector {
+    label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    input[type="color"] {
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  }
+  
+  .usage-tips {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #ff7eb9;
+    
+    h4 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    
+    ul {
+      padding-left: 1.5rem;
+      
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}

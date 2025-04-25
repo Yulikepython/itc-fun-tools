@@ -1,5 +1,3 @@
-
-
 const appsList = [
     {
         appName: "無料のワードクラウドアプリ｜Pythonで画像作成",
@@ -99,6 +97,15 @@ const appsList = [
         description: "ポモドーロ・タイマーで作業効率UP。25分-5分のインターバルで集中力を高めましょう。",
         searchq: "timer pomodoro タイマー ポモドーロ 作業 work",
         id: "pomodorotimer",
+    },
+    {
+        appName: "カラーパレットジェネレーター",
+        icon: "bi bi-palette-fill",
+        linkTo: "/color-palette",
+        color: "#ff7eb9",
+        description: "ウェブデザインに最適なカラーパレットを自動生成。調和の取れた色の組み合わせを簡単に作成できます。",
+        searchq: "color palette カラー パレット 配色 デザイン web ウェブ",
+        id: "colorpalette",
     },
 ]
 
