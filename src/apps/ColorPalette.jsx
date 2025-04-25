@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { setTitleAndDescriptions } from '../utils/setTitleAndDescriptions';
 import summaryCard from '../media/sns-big-summary.png';
 
@@ -11,6 +11,11 @@ const ColorPalette = ({ transferPage }) => {
     monochromatic: []
   });
   const [copied, setCopied] = useState('');
+  const [monoParams, setMonoParams] = useState({
+    lightnessRange: 30,
+    saturationRange: 30
+  });
+  const [hexError, setHexError] = useState('');
   
   // ページが読み込まれたときにタイトルと説明を設定
   useEffect(() => {
@@ -73,11 +78,11 @@ const ColorPalette = ({ transferPage }) => {
     ];
     
     const monochromatic = [
-      hslToHex(h, s, Math.max(0, l - 30)),
+      hslToHex(h, s, Math.max(0, l - monoParams.lightnessRange)),
       baseColor,
-      hslToHex(h, s, Math.min(100, l + 30)),
-      hslToHex(h, Math.max(0, s - 30), l),
-      hslToHex(h, Math.min(100, s + 30), l)
+      hslToHex(h, s, Math.min(100, l + monoParams.lightnessRange)),
+      hslToHex(h, Math.max(0, s - monoParams.saturationRange), l),
+      hslToHex(h, Math.min(100, s + monoParams.saturationRange), l)
     ];
     
     setPalettes({
@@ -89,40 +94,50 @@ const ColorPalette = ({ transferPage }) => {
   };
   
   // HSL値を16進数カラーコードに変換
-  const hslToHex = (h, s, l) => {
-    h /= 360;
-    s /= 100;
-    l /= 100;
-    
-    let r, g, b;
-    
-    if (s === 0) {
-      r = g = b = l; // 無彩色の場合
-    } else {
-      const hue2rgb = (p, q, t) => {
-        if (t < 0) t += 1;
-        if (t > 1) t -= 1;
-        if (t < 1/6) return p + (q - p) * 6 * t;
-        if (t < 1/2) return q;
-        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-        return p;
+  const hslToHex = useMemo(() => {
+    const cache = {};
+    return (h, s, l) => {
+      const key = `${h}-${s}-${l}`;
+      if (cache[key]) {
+        return cache[key];
+      }
+      
+      h /= 360;
+      s /= 100;
+      l /= 100;
+      
+      let r, g, b;
+      
+      if (s === 0) {
+        r = g = b = l; // 無彩色の場合
+      } else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      
+      const toHex = x => {
+        const hex = Math.round(x * 255).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
       };
       
-      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      const p = 2 * l - q;
-      
-      r = hue2rgb(p, q, h + 1/3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1/3);
-    }
-    
-    const toHex = x => {
-      const hex = Math.round(x * 255).toString(16);
-      return hex.length === 1 ? '0' + hex : hex;
+      const hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+      cache[key] = hexColor;
+      return hexColor;
     };
-    
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-  };
+  }, []);
   
   // カラーをクリップボードにコピー
   const copyToClipboard = (color) => {
@@ -135,7 +150,7 @@ const ColorPalette = ({ transferPage }) => {
   // 基本色が変わったらパレットを再計算
   useEffect(() => {
     calculateHarmony();
-  }, [baseColor]);
+  }, [baseColor, monoParams]);
   
   // カラーサンプルを表示
   const ColorSample = ({ color }) => (
@@ -196,11 +211,49 @@ const ColorPalette = ({ transferPage }) => {
               const val = e.target.value;
               if (val.match(/^#[0-9A-Fa-f]{6}$/)) {
                 setBaseColor(val);
+                setHexError('');
+              } else if (val.length === 7) {
+                // 無効な16進数コードの場合はエラーメッセージを表示
+                setHexError('無効な16進数カラーコードです');
               }
             }} 
-            className="form-control" 
+            className={`form-control ${hexError ? 'is-invalid' : ''}`} 
             placeholder="#RRGGBB"
             style={{ maxWidth: '120px' }}
+          />
+          {hexError && (
+            <div className="invalid-feedback">
+              {hexError}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* モノクロマティックパレットの設定 */}
+      <div className="mono-settings mb-4">
+        <h5>モノクロマティックパレット設定</h5>
+        <div className="mb-3">
+          <label htmlFor="lightness-range" className="form-label">明度範囲: {monoParams.lightnessRange}</label>
+          <input
+            type="range"
+            className="form-range"
+            id="lightness-range"
+            min="10"
+            max="50"
+            value={monoParams.lightnessRange}
+            onChange={(e) => setMonoParams({...monoParams, lightnessRange: parseInt(e.target.value)})}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="saturation-range" className="form-label">彩度範囲: {monoParams.saturationRange}</label>
+          <input
+            type="range"
+            className="form-range"
+            id="saturation-range"
+            min="10"
+            max="50"
+            value={monoParams.saturationRange}
+            onChange={(e) => setMonoParams({...monoParams, saturationRange: parseInt(e.target.value)})}
           />
         </div>
       </div>
