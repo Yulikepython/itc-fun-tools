@@ -33,20 +33,20 @@ const Pomodoro = () => {
             </div>
             <div className="m-4">
                 <p className="tag-p">
-                    {isWorking && isTimerRunning && <span className="badge bg-primary">作業中</span>}
-                    {!isWorking && isTimerRunning && <span className="badge bg-danger">休憩中</span>}
+                    {isWorking && isTimerRunning && <span className="badge bg-secondary">作業中</span>}
+                    {!isWorking && isTimerRunning && <span className="badge bg-dark">休憩中</span>}
                 </p>
 
                 <p className="text-title">{displayTime}</p>
             </div>
             <div className="btn-area">
-                <button className="btn btn-primary" onClick={startTimer} disabled={isTimerRunning} id="start-btn">開始</button>
-                <button className="btn btn-warning" onClick={stopTimer} id="stop-btn">一時停止</button>
-                <button className="btn btn-danger" onClick={resetTimer} id="reset-btn">リセット</button>
+                <button className="btn btn-outline-dark" onClick={startTimer} disabled={isTimerRunning} id="start-btn">開始</button>
+                <button className="btn btn-outline-secondary" onClick={stopTimer} id="stop-btn">一時停止</button>
+                <button className="btn btn-outline-danger" onClick={resetTimer} id="reset-btn">リセット</button>
             </div>
             <div className="pomodoro-area">
                 {notes.length > 0 && <p className="pomodoro-title mt-4 mb-3">作業内容を記録しよう</p>}
-                <p className="text-end" id="pomodoro-sum"><span className="badge bg-info">本日のポモドーロ合計数：{numberOfPomodoro}</span></p>
+                <p className="text-end" id="pomodoro-sum"><span className="badge">本日のポモドーロ合計数：{numberOfPomodoro}</span></p>
                 {notes.map((note, index) => (
                     <div key={index} className="input-group mb-3 form-row">
                         <span>{index + 1}. </span>
@@ -59,7 +59,7 @@ const Pomodoro = () => {
                             aria-describedby={`button-addon-${index}`}
                         />
                         <button
-                            className="btn btn-outline-secondary edit-btn"
+                            className={`btn ${note.readOnly ? 'btn-outline-dark' : 'btn-outline-secondary'} edit-btn`}
                             type="button"
                             id={`button-addon-${index}`}
                             onClick={() => handleToggleReadOnly(index)}
