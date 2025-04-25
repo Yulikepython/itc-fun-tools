@@ -11,6 +11,13 @@ const validate = Yup.object({
 const makeQR = async (values, actions) => {
     try {
         const qrText = values.value;
+        
+        // 追加の入力検証
+        if (!qrText || qrText.trim() === '') {
+            actions.setFieldError('value', '空の値はQRコードに変換できません');
+            return;
+        }
+        
         const canvas = document.createElement('canvas');
         
         // QRコードオプション
@@ -24,62 +31,101 @@ const makeQR = async (values, actions) => {
             }
         };
         
-        // QRコード生成
-        await QRCode.toCanvas(canvas, qrText, options);
+        // 結果表示エリアを非表示に
+        const resultArea = document.getElementById("qr-result-area");
+        resultArea.classList.remove('active');
         
-        // Canvasから画像URLを生成
-        const imgURL = canvas.toDataURL("image/png");
-        
-        // 表示領域を取得
-        const qrShowPng = document.getElementById("qrShowPng");
-        const imgDownloadDiv = document.getElementById("qrImgDownload");
-        
-        // 要素をクリア
-        while (qrShowPng.firstChild) {
-            qrShowPng.removeChild(qrShowPng.lastChild);
-        }
-        while (imgDownloadDiv.firstChild) {
-            imgDownloadDiv.removeChild(imgDownloadDiv.lastChild);
-        }
-        
-        // 新しい画像要素を作成
-        let imgElement = document.createElement('img');
-        imgElement.alt = 'QRコード';
-        imgElement.width = 250;
-        imgElement.height = 250;
-        imgElement.src = imgURL;
-        imgElement.className = 'qr-image';
-        
-        // ダウンロードリンク作成
-        let linkElement = document.createElement("a");
-        linkElement.innerText = "QRコードをダウンロード";
-        linkElement.href = imgURL;
-        linkElement.download = "qr.png";
-        linkElement.className = 'download-button';
-        
-        // 生成テキスト表示
-        let textInfoElement = document.createElement("div");
-        textInfoElement.className = 'qr-text-info';
-        textInfoElement.innerText = `「${qrText}」のQRコード`;
-        
-        // 要素を追加
-        qrShowPng.appendChild(imgElement);
-        qrShowPng.appendChild(textInfoElement);
-        imgDownloadDiv.appendChild(linkElement);
-        
-        // 結果表示エリアを表示
-        document.getElementById("qr-result-area").classList.add('active');
-        
-        // フォームをリセット
-        actions.resetForm({
-            values: {
-                value: "",
+        try {
+            // QRコード生成
+            await QRCode.toCanvas(canvas, qrText, options);
+            
+            // Canvasから画像URLを生成
+            const imgURL = canvas.toDataURL("image/png");
+            
+            // 表示領域を取得
+            const qrShowPng = document.getElementById("qrShowPng");
+            const imgDownloadDiv = document.getElementById("qrImgDownload");
+            
+            // 要素をクリア
+            while (qrShowPng.firstChild) {
+                qrShowPng.removeChild(qrShowPng.lastChild);
             }
-        });
+            while (imgDownloadDiv.firstChild) {
+                imgDownloadDiv.removeChild(imgDownloadDiv.lastChild);
+            }
+            
+            // 新しい画像要素を作成
+            let imgElement = document.createElement('img');
+            imgElement.alt = 'QRコード';
+            imgElement.width = 250;
+            imgElement.height = 250;
+            imgElement.src = imgURL;
+            imgElement.className = 'qr-image';
+            
+            // ダウンロードリンク作成
+            let linkElement = document.createElement("a");
+            linkElement.innerText = "QRコードをダウンロード";
+            linkElement.href = imgURL;
+            linkElement.download = "qr.png";
+            linkElement.className = 'download-button';
+            
+            // 生成テキスト表示
+            let textInfoElement = document.createElement("div");
+            textInfoElement.className = 'qr-text-info';
+            textInfoElement.innerText = `「${qrText}」のQRコード`;
+            
+            // 要素を追加
+            qrShowPng.appendChild(imgElement);
+            qrShowPng.appendChild(textInfoElement);
+            imgDownloadDiv.appendChild(linkElement);
+            
+            // 結果表示エリアを表示
+            resultArea.classList.add('active');
+            
+            // フォームをリセット
+            actions.resetForm({
+                values: {
+                    value: "",
+                }
+            });
+        } catch (qrError) {
+            // QRコード生成に失敗した場合の具体的なエラーハンドリング
+            console.error('QRコード生成エラー:', qrError);
+            
+            // ユーザーフレンドリーなエラーメッセージを表示
+            actions.setFieldError('value', 'QRコードの生成に失敗しました。入力内容を確認してください。');
+            
+            // エラー情報をより詳細に表示したいなら、以下のようにカスタムエラーUI要素を表示することもできる
+            // createErrorMessage('QRコードの生成に失敗しました。入力内容を確認してください。');
+        }
     } catch (err) {
+        // 一般的なエラーハンドリング
+        console.error('予期せぬエラー:', err);
+        actions.setFieldError('value', '予期せぬエラーが発生しました');
         ErrorHandler(err);
     }
 }
+
+// エラーメッセージを表示するためのヘルパー関数（必要に応じて実装）
+/*
+const createErrorMessage = (message) => {
+    const resultArea = document.getElementById("qr-result-area");
+    const qrShowPng = document.getElementById("qrShowPng");
+    
+    // 要素をクリア
+    while (qrShowPng.firstChild) {
+        qrShowPng.removeChild(qrShowPng.lastChild);
+    }
+    
+    // エラーメッセージ要素の作成
+    const errorElement = document.createElement('div');
+    errorElement.className = 'qr-error-message';
+    errorElement.innerHTML = `<i class="bi bi-exclamation-triangle"></i> ${message}`;
+    
+    qrShowPng.appendChild(errorElement);
+    resultArea.classList.add('active');
+}
+*/
 
 const QRTopPage = ({ transferPage }) => {
     useEffect(() => {
